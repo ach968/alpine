@@ -1,4 +1,4 @@
-# Alpaca
+# alpine
 
 High-performance compression for sequential numeric data in Go. Purpose-built for time-series, database keys, and IoT metrics.
 
@@ -14,7 +14,7 @@ High-performance compression for sequential numeric data in Go. Purpose-built fo
 ## Installation
 
 ```bash
-go get github.com/ach968/alpaca
+go get github.com/ach968/alpine
 ```
 
 ## Quick Start
@@ -28,7 +28,7 @@ import (
     "fmt"
     "log"
     
-    "github.com/ach968/alpaca"
+    "github.com/ach968/alpine"
 )
 
 func main() {
@@ -36,11 +36,11 @@ func main() {
     data := []float64{10.5, 11.2, 12.8, 13.1, 14.5}
     
     // Encode with auto-detected rice parameter
-    opts := alpaca.Options{
+    opts := alpine.Options{
         RiceParam: 0,  // 0 = auto-detect
     }
     
-    encoded, err := alpaca.Encode(data, opts)
+    encoded, err := alpine.Encode(data, opts)
     if err != nil {
         log.Fatal(err)
     }
@@ -49,7 +49,7 @@ func main() {
         len(data)*8, len(encoded))
     
     // Decode
-    decoded, err := alpaca.Decode(encoded)
+    decoded, err := alpine.Decode(encoded)
     if err != nil {
         log.Fatal(err)
     }
@@ -62,20 +62,20 @@ func main() {
 
 ```go
 timestamps := []int64{1700000000, 1700000060, 1700000120}
-encoded, _ := alpaca.EncodeInt64(timestamps, alpaca.Options{
-    Mode: alpaca.ModeIntSimpleDelta,
+encoded, _ := alpine.EncodeInt64(timestamps, alpine.Options{
+    Mode: alpine.ModeIntSimpleDelta,
 })
-decoded, _ := alpaca.DecodeInt64(encoded)
+decoded, _ := alpine.DecodeInt64(encoded)
 ```
 
 ### Integer Data - Database Keys
 
 ```go
 keys := []int64{0x1234, 0x1235, 0x1236}
-encoded, _ := alpaca.EncodeInt64(keys, alpaca.Options{
-    Mode: alpaca.ModeIntXOR,
+encoded, _ := alpine.EncodeInt64(keys, alpine.Options{
+    Mode: alpine.ModeIntXOR,
 })
-decoded, _ := alpaca.DecodeInt64(encoded)
+decoded, _ := alpine.DecodeInt64(encoded)
 ```
 
 ## Mode Selection Guide
@@ -196,7 +196,7 @@ When `RiceParam: 0` is specified, the library automatically calculates the optim
 
 ```go
 // Automatic parameter selection
-opts := alpaca.Options{
+opts := alpine.Options{
     RiceParam: 0,  // Library finds optimal value
 }
 ```
