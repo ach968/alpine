@@ -1,3 +1,3 @@
-module github.com/ach968/alpaca
+module github.com/ach968/alpine
 
 go 1.25

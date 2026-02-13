@@ -1,20 +1,20 @@
-package alpaca_test
+package alpine_test
 
 import (
 	"testing"
 
-	"github.com/ach968/alpaca"
+	"github.com/ach968/alpine"
 )
 
 func TestEncode_Basic(t *testing.T) {
 	input := []float64{1.0, 2.0, 3.0, 4.0, 5.0}
-	opts := alpaca.Options{
-		Mode:        alpaca.ModeFloatALP,
+	opts := alpine.Options{
+		Mode:        alpine.ModeFloatALP,
 		RiceParam:   4,
 		ALPExponent: 0,
 	}
 
-	encoded, err := alpaca.Encode(input, opts)
+	encoded, err := alpine.Encode(input, opts)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
@@ -31,18 +31,18 @@ func TestEncode_Basic(t *testing.T) {
 
 func TestDecode_Basic(t *testing.T) {
 	original := []float64{1.0, 2.0, 3.0, 4.0, 5.0}
-	opts := alpaca.Options{
-		Mode:        alpaca.ModeFloatALP,
+	opts := alpine.Options{
+		Mode:        alpine.ModeFloatALP,
 		RiceParam:   4,
 		ALPExponent: 0,
 	}
 
-	encoded, err := alpaca.Encode(original, opts)
+	encoded, err := alpine.Encode(original, opts)
 	if err != nil {
 		t.Fatalf("encode error: %v", err)
 	}
 
-	decoded, err := alpaca.Decode(encoded)
+	decoded, err := alpine.Decode(encoded)
 	if err != nil {
 		t.Fatalf("decode error: %v", err)
 	}
@@ -60,18 +60,18 @@ func TestDecode_Basic(t *testing.T) {
 
 func TestRoundTrip_Decimals(t *testing.T) {
 	original := []float64{3.14159, 2.71828, 1.41421, 1.73205}
-	opts := alpaca.Options{
-		Mode:        alpaca.ModeFloatALP,
+	opts := alpine.Options{
+		Mode:        alpine.ModeFloatALP,
 		RiceParam:   8,
 		ALPExponent: -1,
 	}
 
-	encoded, err := alpaca.Encode(original, opts)
+	encoded, err := alpine.Encode(original, opts)
 	if err != nil {
 		t.Fatalf("encode error: %v", err)
 	}
 
-	decoded, err := alpaca.Decode(encoded)
+	decoded, err := alpine.Decode(encoded)
 	if err != nil {
 		t.Fatalf("decode error: %v", err)
 	}
@@ -88,8 +88,8 @@ func TestRoundTrip_Decimals(t *testing.T) {
 }
 
 func TestEncode_Empty(t *testing.T) {
-	_, err := alpaca.Encode([]float64{}, alpaca.Options{
-		Mode:      alpaca.ModeFloatALP,
+	_, err := alpine.Encode([]float64{}, alpine.Options{
+		Mode:      alpine.ModeFloatALP,
 		RiceParam: 4,
 	})
 	if err == nil {
@@ -98,8 +98,8 @@ func TestEncode_Empty(t *testing.T) {
 }
 
 func TestEncode_SingleValue(t *testing.T) {
-	_, err := alpaca.Encode([]float64{42.0}, alpaca.Options{
-		Mode:      alpaca.ModeFloatALP,
+	_, err := alpine.Encode([]float64{42.0}, alpine.Options{
+		Mode:      alpine.ModeFloatALP,
 		RiceParam: 4,
 	})
 	if err == nil {
@@ -110,12 +110,12 @@ func TestEncode_SingleValue(t *testing.T) {
 func TestEncode_AutoRiceParam(t *testing.T) {
 	// RiceParam=0 means auto-detect
 	input := []float64{1.0, 2.0, 3.0}
-	opts := alpaca.Options{
-		Mode:      alpaca.ModeFloatALP,
+	opts := alpine.Options{
+		Mode:      alpine.ModeFloatALP,
 		RiceParam: 0, // Auto-detect
 	}
 
-	encoded, err := alpaca.Encode(input, opts)
+	encoded, err := alpine.Encode(input, opts)
 	if err != nil {
 		t.Fatalf("unexpected error with auto rice param: %v", err)
 	}
@@ -126,7 +126,7 @@ func TestEncode_AutoRiceParam(t *testing.T) {
 }
 
 func TestDecode_DataTooShort(t *testing.T) {
-	_, err := alpaca.Decode([]byte{1, 2, 3})
+	_, err := alpine.Decode([]byte{1, 2, 3})
 	if err == nil {
 		t.Error("expected error for short data, got nil")
 	}
@@ -142,7 +142,7 @@ func TestDecode_InvalidValueCount(t *testing.T) {
 	// Count at bytes 20-23 = 1 (too few)
 	data[23] = 1
 
-	_, err := alpaca.Decode(data)
+	_, err := alpine.Decode(data)
 	if err == nil {
 		t.Error("expected error for invalid value count, got nil")
 	}
@@ -151,18 +151,18 @@ func TestDecode_InvalidValueCount(t *testing.T) {
 func TestRoundTrip_TwoValues(t *testing.T) {
 	// Test with exactly 2 values
 	original := []float64{10.5, 20.25}
-	opts := alpaca.Options{
-		Mode:        alpaca.ModeFloatALP,
+	opts := alpine.Options{
+		Mode:        alpine.ModeFloatALP,
 		RiceParam:   4,
 		ALPExponent: -1,
 	}
 
-	encoded, err := alpaca.Encode(original, opts)
+	encoded, err := alpine.Encode(original, opts)
 	if err != nil {
 		t.Fatalf("encode error: %v", err)
 	}
 
-	decoded, err := alpaca.Decode(encoded)
+	decoded, err := alpine.Decode(encoded)
 	if err != nil {
 		t.Fatalf("decode error: %v", err)
 	}

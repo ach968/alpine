@@ -1,12 +1,12 @@
-// Package alpaca provides high-performance compression for sequential numeric data.
+// Package alpine provides high-performance compression for sequential numeric data.
 // It supports both float64 (with ALP lossless compression) and int64 data,
 // with multiple encoding modes optimized for different data patterns.
-package alpaca
+package alpine
 
 import (
 	"fmt"
 
-	"github.com/ach968/alpaca/internal"
+	"github.com/ach968/alpine/internal"
 )
 
 // Mode represents the encoding strategy

@@ -1,4 +1,4 @@
-package alpaca
+package alpine
 
 import (
 	"testing"
