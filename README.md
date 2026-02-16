@@ -64,7 +64,7 @@ encoded := alpine.NewIntEncoder(timestamps).Encode()
 decoded := alpine.NewDecoder(encoded).DecodeInt()
 ```
 
-### Builder Pattern (Advanced)
+### Builder Pattern
 
 ```go
 // Custom configuration
